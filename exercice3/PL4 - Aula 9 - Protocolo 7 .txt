@@ -1,0 +1,701 @@
+Considero a rede do IP seguinte para fazer o endereçamento do cenário.
+
+172.127.52.3
+255.255.0.0
+
+O endereço de rede disponivel é:
+172.127.0.0
+255.255.0.0
+
+!===================================
+!&&&&&&&&&&&&&&&&&&&&&&&&
+!!!!!!!!!!!!
+! Router R0
+
+
+!==================
+
+!--- Rotas Dinamicas - RIP ver 2 ------
+
+
+en
+
+conf term
+
+! ativar protocol encaminhamento
+
+router rip
+ver 2
+
+! autorizar redes
+network 172.127.0.0
+
+end
+
+copy run start
+
+sh run
+
+
+
+
+!==================
+
+!--- Rotas estáticas ------
+
+en 
+conf term 
+
+
+! Rede B
+ip route 172.127.2.0 255.255.255.0 s 0/1/0
+
+
+! Rede C
+ip route 172.127.3.0 255.255.255.0 s 0/1/1
+
+! Rede D
+ip route 172.127.4.0 255.255.255.0 s 0/1/0
+
+! Rede E
+ip route 172.127.5.0 255.255.255.0 s 0/1/1
+
+! Rede R13
+ip route 172.127.0.8 255.255.255.252 s 0/1/0
+
+! Rede R24 
+ip route 172.127.0.12 255.255.255.252 s 0/1/1
+
+
+end
+
+copy run start
+
+
+sh run 
+
+sh ip route
+
+
+
+!=================
+
+
+
+en 
+conf term
+
+hostname R0
+
+!Fa 0/0 - Rede A - 
+int Fa 0/0 
+ip address 172.127.1.254 255.255.255.0
+no shut
+
+!Se 0/1/0 - Rede R01 
+int Se 0/1/0 
+ip address 172.127.0.1 255.255.255.252
+clock rate 2000000
+no shut
+
+
+!Se 0/1/1 - Rede R02
+int Se 0/1/1 
+ip address 172.127.0.5 255.255.255.252
+clock rate 2000000
+no shut
+
+end
+
+copy run start
+
+sh run
+ 
+!&&&&&&&&&&&&&&&&&&&&&&&&
+!!!!!!!!!!!!
+! Router R1
+!==================
+
+!--- Rotas Dinamicas - RIP ver 2 ------
+
+
+en
+
+conf term
+
+! ativar protocol encaminhamento
+
+router rip
+ver 2
+
+! autorizar redes
+network 172.127.0.0
+
+end
+
+copy run start
+
+sh run
+
+
+
+
+!==================
+
+!==================
+
+!--- Rotas estáticas ------
+
+en 
+conf term 
+
+
+! Rede A
+ip route 172.127.1.0 255.255.255.0 s 0/1/0
+
+
+! Rede C
+ip route 172.127.3.0 255.255.255.0 s 0/1/0
+
+! Rede D
+ip route 172.127.4.0 255.255.255.0 s 0/1/1
+
+! Rede E
+ip route 172.127.5.0 255.255.255.0 s 0/1/0
+
+! Rede R02
+ip route 172.127.0.4 255.255.255.252 s 0/1/0
+
+! Rede R24 
+ip route 172.127.0.12 255.255.255.252 s 0/1/0
+
+
+end
+
+copy run start
+
+
+sh run 
+
+sh ip route
+
+
+
+!=================
+
+
+
+
+
+
+en 
+conf term
+
+hostname R1
+
+!Fa 0/0 - Rede B - 
+int Fa 0/0 
+ip address 172.127.2.254 255.255.255.0
+no shut
+
+!Se 0/1/0 - Rede R01 
+int Se 0/1/0 
+ip address 172.127.0.2 255.255.255.252 
+no shut
+
+
+!Se 0/1/1 - Rede R13
+int Se 0/1/1 
+ip address 172.127.0.9 255.255.255.252
+clock rate 2000000
+no shut
+
+end
+
+copy run start
+
+sh run
+
+
+!&&&&&&&&&&&&&&&&&&&&&&&&
+!!!!!!!!!!!!
+! Router R2
+
+!==================
+
+!--- Rotas Dinamicas - RIP ver 2 ------
+
+
+en
+
+conf term
+
+! ativar protocol encaminhamento
+
+router rip
+ver 2
+
+! autorizar redes
+network 172.127.0.0
+
+end
+
+copy run start
+
+sh run
+
+
+
+
+!==================
+!==================
+
+!--- Rotas estáticas ------
+
+en 
+conf term 
+
+
+! Rede A
+ip route 172.127.1.0 255.255.255.0 s 0/1/0
+
+
+! Rede B
+ip route 172.127.2.0 255.255.255.0 s 0/1/0
+
+! Rede D
+ip route 172.127.4.0 255.255.255.0 s 0/1/0
+
+! Rede E
+ip route 172.127.5.0 255.255.255.0 s 0/1/1
+ 
+
+! Rede R01
+ip route 172.127.0.0 255.255.255.252 s 0/1/0
+
+
+! Rede R13
+ip route 172.127.0.8 255.255.255.252 s 0/1/0
+
+end
+
+copy run start
+
+
+sh run 
+
+sh ip route
+
+
+
+!=================
+
+
+
+en 
+conf term
+
+hostname R2
+
+!Fa 0/0 - Rede C - 
+int Fa 0/0 
+ip address 172.127.3.254 255.255.255.0
+no shut
+
+!Se 0/1/0 - Rede R02 
+int Se 0/1/0 
+ip address 172.127.0.6 255.255.255.252 
+no shut
+
+
+!Se 0/1/1 - Rede R24
+int Se 0/1/1 
+ip address 172.127.0.13 255.255.255.252
+clock rate 2000000
+no shut
+
+end
+
+copy run start
+
+sh run
+
+
+!&&&&&&&&&&&&&&&&&&&&&&&&
+!!!!!!!!!!!!
+! Router R3
+
+!==================
+
+!--- Rotas Dinamicas - RIP ver 2 ------
+
+
+en
+
+conf term
+
+! ativar protocol encaminhamento
+
+router rip
+ver 2
+
+! autorizar redes
+network 172.127.0.0
+
+end
+
+copy run start
+
+sh run
+
+
+
+
+!==================
+
+!==================
+
+!--- Rotas estáticas ------
+
+en 
+conf term 
+
+
+! Rede A
+ip route 172.127.1.0 255.255.255.0 s 0/1/0
+
+
+! Rede B
+ip route 172.127.2.0 255.255.255.0 s 0/1/0
+
+! Rede C
+ip route 172.127.3.0 255.255.255.0 s 0/1/0
+
+! Rede E
+ip route 172.127.5.0 255.255.255.0 s 0/1/0
+ 
+
+! Rede R01
+ip route 172.127.0.0 255.255.255.252 s 0/1/0
+
+! Rede R02
+ip route 172.127.0.4 255.255.255.252 s 0/1/0
+
+! Rede R24 
+ip route 172.127.0.12 255.255.255.252 s 0/1/0
+
+end
+
+copy run start
+
+
+sh run 
+
+sh ip route
+
+
+
+!=================
+
+
+
+
+en 
+conf term
+
+hostname R3
+
+!Fa 0/0 - Rede D - 
+int Fa 0/0 
+ip address 172.127.4.254 255.255.255.0
+no shut
+
+!Se 0/1/0 - Rede R02 
+int Se 0/1/0 
+ip address 172.127.0.10 255.255.255.252 
+no shut
+ 
+!Se 0/1/1 - Rede R34 
+int Se 0/1/1 
+ip address 172.127.0.17 255.255.255.252 
+clock rate 2000000
+no shut
+end
+
+copy run start
+
+sh run
+
+
+!&&&&&&&&&&&&&&&&&&&&&&&&
+!!!!!!!!!!!!
+! Router R4
+!==================
+
+!--- Rotas Dinamicas - RIP ver 2 ------
+
+
+en
+
+conf term
+
+! ativar protocol encaminhamento
+
+router rip
+ver 2
+
+! autorizar redes
+network 172.127.0.0
+
+end
+
+copy run start
+
+sh run
+
+
+
+
+!==================
+
+
+!==================
+
+!--- Rotas estáticas ------
+
+en 
+conf term 
+
+
+! Rede A
+ip route 172.127.1.0 255.255.255.0 s 0/1/0
+
+
+! Rede B
+ip route 172.127.2.0 255.255.255.0 s 0/1/0
+
+! Rede C
+ip route 172.127.3.0 255.255.255.0 s 0/1/0
+
+! Rede D
+ip route 172.127.4.0 255.255.255.0 s 0/1/0
+ 
+
+! Rede R01
+ip route 172.127.0.0 255.255.255.252 s 0/1/0
+
+! Rede R02
+ip route 172.127.0.4 255.255.255.252 s 0/1/0
+ 
+! Rede R13
+ip route 172.127.0.8 255.255.255.252 s 0/1/0
+
+
+end
+
+copy run start
+
+
+sh run 
+
+sh ip route
+
+
+
+!=================
+
+
+
+en 
+conf term
+
+hostname R4
+
+!Fa 0/0 - Rede E - 
+int Fa 0/0 
+ip address 172.127.5.254 255.255.255.0
+no shut
+
+!Se 0/1/0 - Rede R24 
+int Se 0/1/0 
+ip address 172.127.0.14 255.255.255.252 
+no shut
+
+!Se 0/1/1 - Rede R34 
+int Se 0/1/1 
+ip address 172.127.0.18 255.255.255.252  
+no shut
+ 
+
+end
+
+copy run start
+
+sh run
+!===================================
+!////////////////////////
+!--- Rede Router R01 / 30
+172.127.0.0
+255.255.255.252
+
+! Router R0
+172.127.0.1
+255.255.255.252
+
+! Router R1
+172.127.0.2
+255.255.255.252
+
+!////////////////////////
+!--- Rede Router R02 / 30
+172.127.0.4
+255.255.255.252
+
+! Router R0
+172.127.0.5
+255.255.255.252
+
+! Router R2
+172.127.0.6
+255.255.255.252
+
+!////////////////////////
+!--- Rede Router R13 / 30
+172.127.0.8
+255.255.255.252
+
+! Router R1
+172.127.0.9
+255.255.255.252
+
+! Router R3
+172.127.0.10
+255.255.255.252
+
+
+!////////////////////////
+!--- Rede Router R24 / 30
+172.127.0.12
+255.255.255.252
+
+! Router R2
+172.127.0.13
+255.255.255.252
+
+! Router R4
+172.127.0.14
+255.255.255.252
+
+
+!////////////////////////
+!--- Rede Router R34 / 30
+172.127.0.16
+255.255.255.252
+
+! Router R3
+172.127.0.17
+255.255.255.252
+
+! Router R4
+172.127.0.18
+255.255.255.252
+
+
+!===================================
+!////////////////////////
+!--- Rede A  / 24
+172.127.0.0
+255.255.255.0
+
+!PC 01
+172.127.1.1
+255.255.255.0
+
+!PC 02
+172.127.1.2
+255.255.255.0
+
+!DNS
+172.127.1.3
+255.255.255.0
+
+!WEB
+172.127.1.4
+255.255.255.0
+
+!GW
+172.127.1.254
+255.255.255.0
+
+!////////////////////////
+!--- Rede B  / 24
+172.127.2.0
+255.255.255.0
+
+!PC 11
+172.127.2.1
+255.255.255.0
+
+!PC 12
+172.127.2.2
+255.255.255.0 
+
+!GW
+172.127.2.254
+255.255.255.0 
+
+!////////////////////////
+!--- Rede C  / 24
+172.127.3.0
+255.255.255.0
+
+!PC 21
+172.127.3.1
+255.255.255.0
+
+!PC 22
+172.127.3.2
+255.255.255.0 
+
+!GW
+172.127.3.254
+255.255.255.0
+
+
+!////////////////////////
+!--- Rede D  / 24
+172.127.4.0
+255.255.255.0
+
+!PC 31
+172.127.4.1
+255.255.255.0
+
+!PC 32
+172.127.4.2
+255.255.255.0 
+
+!GW
+172.127.4.254
+255.255.255.0
+
+
+!////////////////////////
+!--- Rede E  / 24
+172.127.5.0
+255.255.255.0
+
+!PC 41
+172.127.5.1
+255.255.255.0
+
+!PC 42
+172.127.5.2
+255.255.255.0 
+
+!GW
+172.127.5.254
+255.255.255.0
+
+
+copy running-config startup-config

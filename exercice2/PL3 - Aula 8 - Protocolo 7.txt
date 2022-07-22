@@ -1,0 +1,271 @@
+! Vou utilizar a rede do enderço 191.108.77.55/6 para fazer o endereçamento do cenários!!
+Rede disponivel:
+188.0.0.0/6
+
+!////////////////////////
+! Router R0
+
+en 
+conf term
+! Interface Fa 0/0 
+interface Fa 0/0
+ip address  188.0.1.254 255.255.255.0
+no shut
+
+! Interface Se 0/1/0
+interface Se 0/1/0
+ip address 188.0.0.1 255.255.255.252
+clock rate 1300000
+no shut
+
+! Interface Se 0/1/1
+interface Se 0/1/1
+ip address 188.0.0.5 255.255.255.252
+clock rate 1300000
+no shut
+end
+
+copy run start
+
+
+!////////////////////////
+! Router R1
+
+en 
+conf term
+! Interface Fa 0/0 
+interface Fa 0/0
+ip address  188.0.2.254 255.255.255.0
+no shut
+
+! Interface Se 0/1/0
+interface Se 0/1/0
+ip address 188.0.0.2 255.255.255.252 
+no shut
+
+! Interface Se 0/1/1
+interface Se 0/1/1
+ip address 188.0.0.9 255.255.255.252
+clock rate 1300000
+no shut
+end
+
+copy run start
+
+
+!////////////////////////
+! Router R2
+
+en 
+conf term
+! Interface Fa 0/0 
+interface Fa 0/0
+ip address  188.0.3.254 255.255.255.0
+no shut
+
+! Interface Se 0/1/0
+interface Se 0/1/0
+ip address 188.0.0.6 255.255.255.252 
+no shut
+
+! Interface Se 0/1/1
+interface Se 0/1/1
+ip address 188.0.0.13 255.255.255.252
+clock rate 1300000
+no shut
+end
+
+copy run start
+
+
+!////////////////////////
+! Router R3
+
+en 
+conf term
+! Interface Fa 0/0 
+interface Fa 0/0
+ip address  188.0.4.254 255.255.255.0
+no shut
+
+! Interface Se 0/1/0
+interface Se 0/1/0
+ip address 188.0.0.10 255.255.255.252 
+no shut
+ 
+end
+
+copy run start
+
+
+!////////////////////////
+! Router R4
+
+en 
+conf term
+! Interface Fa 0/0 
+interface Fa 0/0
+ip address  188.0.5.254 255.255.255.0
+no shut
+
+! Interface Se 0/1/0
+interface Se 0/1/0
+ip address 188.0.0.14 255.255.255.252 
+no shut
+ 
+end
+
+copy run start
+
+
+
+
+!////////////////////////
+
+!==============
+!Rede R01 /30
+188.0.0.0 
+255.255.255.252
+
+! Router R0
+188.0.0.1 
+255.255.255.252
+
+! Router R1
+188.0.0.2 
+255.255.255.252
+
+!==============
+!Rede R02 /30
+188.0.0.4 
+255.255.255.252
+
+! Router R0
+188.0.0.5 
+255.255.255.252
+
+! Router R2
+188.0.0.6 
+255.255.255.252
+
+
+!==============
+!Rede R13 /30
+188.0.0.8 
+255.255.255.252
+
+! Router R1
+188.0.0.9 
+255.255.255.252
+
+! Router R3
+188.0.0.10 
+255.255.255.252
+
+
+!==============
+!Rede R24 /30
+188.0.0.12 
+255.255.255.252
+
+! Router R2
+188.0.0.13 
+255.255.255.252
+
+! Router R4
+188.0.0.14
+255.255.255.252
+
+!=================================
+!Rede A /24
+188.0.1.0 
+255.255.255.0
+
+PC 01
+188.0.1.1
+255.255.255.0
+
+PC02
+188.0.1.2 
+255.255.255.0
+
+DNS
+188.0.1.3 
+255.255.255.0
+
+WEB
+188.0.1.4 
+255.255.255.0
+
+GW
+188.0.1.254 
+255.255.255.0
+
+!==============
+!Rede B /24
+188.0.2.0 
+255.255.255.0
+
+PC 11
+188.0.2.1 
+255.255.255.0
+
+PC12
+188.0.2.2 
+255.255.255.0
+
+GW
+188.0.2.254 
+255.255.255.0
+
+!==============
+!Rede C /24
+188.0.3.0 
+255.255.255.0
+
+PC 21
+188.0.3.1 
+255.255.255.0
+
+PC122
+188.0.3.2 
+255.255.255.0
+
+GW
+188.0.3.254 
+255.255.255.0
+
+!==============
+!Rede D /24
+188.0.4.0 
+255.255.255.0
+
+PC 31
+188.0.4.1 
+255.255.255.0
+
+PC 32
+188.0.4.2 
+255.255.255.0
+
+GW
+188.0.4.254 
+255.255.255.0
+
+!==============
+!Rede E /24
+188.0.5.0 
+255.255.255.0
+
+PC 41
+188.0.5.1 
+255.255.255.0
+
+PC 42
+188.0.5.2 
+255.255.255.0
+
+GW
+188.0.5.254 
+255.255.255.0
+
